@@ -1,0 +1,443 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id               String        @id @default(uuid())
+  email            String        @unique
+  mobile           String        @unique
+  passwordHash     String
+  isEmailVerified  Boolean       @default(false)
+  isMobileVerified Boolean       @default(false)
+  mfaEnabled       Boolean       @default(false)
+  mfaSecret        String?
+  status           String        @default("ACTIVE") // ACTIVE, SUSPENDED, RESTRICTED, CLOSED
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  profile          UserProfile?
+  bankAccounts     BankAccount[]
+  sellOrders       SellOrder[]
+  quotes           RateQuote[]
+  notifications    Notification[]
+  supportTickets   SupportTicket[]
+  riskAlerts       RiskAlert[]
+  complianceCases  ComplianceCase[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  id         String   @id @default(uuid())
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName   String
+  address    String?
+  city       String?
+  state      String?
+  postalCode String?
+  country    String   @default("IN")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("user_profiles")
+}
+
+model BankAccount {
+  id                     String      @id @default(uuid())
+  userId                 String
+  user                   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bankName               String
+  accountNumberMasked    String
+  accountNumberEncrypted String
+  ifscCode               String
+  accountHolderName      String
+  isVerified             Boolean     @default(false)
+  status                 String      @default("ACTIVE") // PENDING_VERIFICATION, ACTIVE, COOLING_OFF, LOCKED, REJECTED
+  coolingOffUntil        DateTime?
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+
+  sellOrders             SellOrder[]
+  payouts                Payout[]
+
+  @@map("bank_accounts")
+}
+
+model Asset {
+  id        String    @id @default(uuid())
+  symbol    String    @unique // e.g. USDT
+  name      String    // Tether USD
+  decimals  Int       @default(6)
+  isEnabled Boolean   @default(true)
+  networks  Network[]
+
+  @@map("assets")
+}
+
+model Network {
+  id                 String                  @id @default(uuid())
+  assetId            String
+  asset              Asset                   @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  name               String                  // e.g. TRC20, ERC20, BEP20, Polygon, Solana
+  chainId            String?
+  contractAddress    String?
+  minConfirmations   Int                     @default(12)
+  minDepositAmount   Decimal
+  isEnabled          Boolean                 @default(true)
+  sellOrders         SellOrder[]
+  blockchainTxs      BlockchainTransaction[]
+  depositAddresses   DepositAddress[]
+
+  @@map("networks")
+}
+
+model RateProvider {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  type      String   // BINANCE, COINGECKO, MOCK_SANDBOX
+  isActive  Boolean  @default(true)
+  priority  Int      @default(1)
+  createdAt DateTime @default(now())
+
+  @@map("rate_providers")
+}
+
+model RateQuote {
+  id               String      @id @default(uuid())
+  userId           String?
+  user             User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  assetSymbol      String      @default("USDT")
+  networkName      String
+  usdtAmount       Decimal
+  providerRate     Decimal
+  companySpread    Decimal
+  companyFee       Decimal
+  netInrRate       Decimal
+  grossInrAmount   Decimal
+  netInrAmount     Decimal
+  rateSource       String
+  lockedAt         DateTime    @default(now())
+  expiresAt        DateTime
+  isUsed           Boolean     @default(false)
+  sellOrders       SellOrder[]
+
+  @@map("rate_quotes")
+}
+
+model SellOrder {
+  id                 String                  @id @default(uuid())
+  orderNumber        String                  @unique
+  userId             String
+  user               User                    @relation(fields: [userId], references: [id])
+  bankAccountId      String
+  bankAccount        BankAccount             @relation(fields: [bankAccountId], references: [id])
+  quoteId            String
+  quote              RateQuote               @relation(fields: [quoteId], references: [id])
+  networkId          String
+  network            Network                 @relation(fields: [networkId], references: [id])
+  usdtAmount         Decimal
+  inrRate            Decimal
+  grossInrAmount     Decimal
+  feeInrAmount       Decimal
+  netInrAmount       Decimal
+  state              String                  @default("DRAFT")
+  depositAddress     String?
+  txHash             String?
+  confirmedAt        DateTime?
+  completedAt        DateTime?
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @updatedAt
+
+  blockchainTxs      BlockchainTransaction[]
+  payouts            Payout[]
+  ledgerEntries      LedgerEntry[]
+  riskAlerts         RiskAlert[]
+  complianceCases    ComplianceCase[]
+  supportTickets     SupportTicket[]
+  depositAddresses   DepositAddress[]
+
+  @@map("sell_orders")
+}
+
+model DepositAddress {
+  id         String    @id @default(uuid())
+  orderId    String    @unique
+  order      SellOrder @relation(fields: [orderId], references: [id])
+  networkId  String
+  network    Network   @relation(fields: [networkId], references: [id])
+  address    String
+  memo       String?
+  expiresAt  DateTime
+  isUsed     Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+
+  @@map("deposit_addresses")
+}
+
+model BlockchainTransaction {
+  id            String               @id @default(uuid())
+  orderId       String?
+  order         SellOrder?           @relation(fields: [orderId], references: [id])
+  networkId     String
+  network       Network              @relation(fields: [networkId], references: [id])
+  txHash        String               @unique
+  fromAddress   String
+  toAddress     String
+  amount        Decimal
+  confirmations Int                  @default(0)
+  status        String               // UNCONFIRMED, CONFIRMED, FAILED
+  blockNumber   BigInt?
+  detectedAt    DateTime             @default(now())
+  confirmedAt   DateTime?
+
+  confirmationsHistory ConfirmationRecord[]
+
+  @@map("blockchain_transactions")
+}
+
+model ConfirmationRecord {
+  id                String                @id @default(uuid())
+  txId              String
+  transaction       BlockchainTransaction @relation(fields: [txId], references: [id], onDelete: Cascade)
+  confirmationCount Int
+  verifiedAt        DateTime              @default(now())
+
+  @@map("confirmation_records")
+}
+
+model RiskAlert {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  orderId         String?
+  order           SellOrder? @relation(fields: [orderId], references: [id])
+  riskLevel       String    // LOW, MEDIUM, HIGH, CRITICAL
+  score           Int
+  triggerRules    String    // JSON stringified array of triggered rules
+  status          String    @default("OPEN") // OPEN, REVIEWED, DISMISSED
+  resolutionNotes String?
+  createdAt       DateTime  @default(now())
+
+  @@map("risk_alerts")
+}
+
+model ComplianceCase {
+  id           String    @id @default(uuid())
+  caseNumber   String    @unique
+  userId       String
+  user         User      @relation(fields: [userId], references: [id])
+  orderId      String?
+  order        SellOrder? @relation(fields: [orderId], references: [id])
+  trigger      String
+  status       String    @default("OPEN")
+  riskScore    Int
+  evidence     String
+  analystNotes String?
+  reviewerId   String?
+  reviewer     StaffUser? @relation(fields: [reviewerId], references: [id])
+  decision     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("compliance_cases")
+}
+
+model Payout {
+  id                String      @id @default(uuid())
+  payoutNumber      String      @unique
+  orderId           String
+  order             SellOrder   @relation(fields: [orderId], references: [id])
+  bankAccountId     String
+  bankAccount       BankAccount @relation(fields: [bankAccountId], references: [id])
+  amount            Decimal
+  provider          String      // CASHFREE, RAZORPAYX, MOCK_SANDBOX
+  providerReference String?
+  status            String      @default("PENDING_APPROVAL")
+  initiatedAt       DateTime?
+  completedAt       DateTime?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@map("payouts")
+}
+
+model LedgerEntry {
+  id          String    @id @default(uuid())
+  entryNumber String    @unique
+  orderId     String?
+  order       SellOrder? @relation(fields: [orderId], references: [id])
+  accountType String    // DEPOSIT_HOLDING, COMPANY_REVENUE, PAYOUT_LIABILITY, PAYOUT_DISBURSED
+  debit       Decimal
+  credit      Decimal
+  description String
+  timestamp   DateTime  @default(now())
+
+  @@map("ledger_entries")
+}
+
+model FeeRule {
+  id            String   @id @default(uuid())
+  name          String
+  feePercentage Decimal
+  minFee        Decimal
+  maxFee        Decimal
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  @@map("fee_rules")
+}
+
+model TaxRule {
+  id            String   @id @default(uuid())
+  name          String
+  taxPercentage Decimal
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  @@map("tax_rules")
+}
+
+model LimitRule {
+  id            String   @id @default(uuid())
+  userTier      String   @default("STANDARD")
+  minOrderUsdt  Decimal
+  maxOrderUsdt  Decimal
+  maxDailyUsdt  Decimal
+  createdAt     DateTime @default(now())
+
+  @@map("limit_rules")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String   @default("INFO") // INFO, SUCCESS, WARNING, DANGER
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
+}
+
+model SupportTicket {
+  id           String     @id @default(uuid())
+  ticketNumber String     @unique
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  orderId      String?
+  order        SellOrder? @relation(fields: [orderId], references: [id])
+  subject      String
+  category     String
+  priority     String     @default("MEDIUM") // LOW, MEDIUM, HIGH, URGENT
+  status       String     @default("OPEN")   // OPEN, IN_PROGRESS, RESOLVED, CLOSED
+  messages     String     // JSON stringified messages
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("support_tickets")
+}
+
+model StaffUser {
+  id           String           @id @default(uuid())
+  email        String           @unique
+  name         String
+  passwordHash String
+  role         String           @default("SUPPORT") // COMPLIANCE, FINANCE, OPERATIONS, SUPPORT, SUPER_ADMIN
+  mfaEnabled   Boolean          @default(true)
+  mfaSecret    String?
+  isActive     Boolean          @default(true)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  reviewedCases ComplianceCase[]
+  auditLogs     AuditLog[]
+
+  @@map("staff_users")
+}
+
+model AuditLog {
+  id          String     @id @default(uuid())
+  staffId     String?
+  staff       StaffUser? @relation(fields: [staffId], references: [id])
+  actorType   String     // SYSTEM, USER, STAFF
+  actorId     String
+  action      String
+  entityType  String
+  entityId    String?
+  details     String     // JSON stringified details
+  ipAddress   String?
+  timestamp   DateTime   @default(now())
+
+  @@map("audit_logs")
+}
+
+model WebhookEvent {
+  id          String    @id @default(uuid())
+  provider    String    // BLOCKCHAIN, PAYOUT, CUSTODY
+  eventId     String    @unique
+  eventType   String
+  payload     String    // JSON stringified payload
+  signature   String?
+  status      String    @default("PENDING") // PENDING, PROCESSED, FAILED, DUPLICATE
+  processedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@map("webhook_events")
+}
+
+model ReconciliationRecord {
+  id                 String   @id @default(uuid())
+  date               DateTime
+  totalDepositsUsdt  Decimal
+  totalPayoutsInr    Decimal
+  ledgerBalanceUsdt  Decimal
+  custodyBalanceUsdt Decimal
+  bankBalanceInr     Decimal
+  status             String   // MATCHED, DISCREPANCY
+  discrepancy        Decimal
+  createdAt          DateTime @default(now())
+
+  @@map("reconciliation_records")
+}
+
+model SystemSetting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String
+  description String?
+  isPublic    Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+
+  @@map("system_settings")
+}
+
+model ProductionReadinessCheck {
+  id        String   @id @default(uuid())
+  category  String   // LEGAL, BANKING, SECURITY, CUSTODY, COMPLIANCE
+  name      String   @unique
+  isPassed  Boolean  @default(false)
+  details   String?
+  checkedAt DateTime @default(now())
+
+  @@map("production_readiness_checks")
+}
+
+model ProviderConfiguration {
+  id           String   @id @default(uuid())
+  providerName String   @unique // BINANCE, CASHFREE, FIREBLOCKS, CHAINALYSIS
+  providerType String   // RATE, PAYOUT, CUSTODY, COMPLIANCE
+  isSandbox    Boolean  @default(true)
+  configData   String   // JSON stringified config
+  isActive     Boolean  @default(true)
+  updatedAt    DateTime @updatedAt
+
+  @@map("provider_configurations")
+}

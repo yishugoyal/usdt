@@ -1,0 +1,1349 @@
+# RUPEEBRIDGE — PROFESSIONAL UI/UX REDESIGN
+
+## Sky Blue + White Financial Theme
+
+You are a senior product designer and frontend UI engineer specializing in modern fintech applications.
+
+The RupeeBridge platform is already fully implemented.
+
+Your task is **NOT to rebuild the application**.
+
+Your task is to perform a complete **professional UI/UX redesign and frontend visual refinement** while preserving all existing functionality, APIs, business logic, financial calculations, database behavior, authentication, security, provider integrations, order states, and backend architecture.
+
+---
+
+# 1. PRIMARY OBJECTIVE
+
+Transform the existing RupeeBridge interface into a:
+
+* Modern
+* Professional
+* Friendly
+* Clean
+* Premium
+* Trustworthy
+* Easy-to-use
+* Fintech-quality
+
+application using a **Sky Blue + White visual theme**.
+
+The interface should feel:
+
+> Clean financial platform + modern fintech + friendly banking application
+
+It should NOT feel like:
+
+* A crypto casino
+* A trading-gambling website
+* A dark hacker dashboard
+* A generic SaaS template
+* An overly colorful crypto exchange
+* An old banking website
+
+---
+
+# 2. CRITICAL RULE — DO NOT BREAK FUNCTIONALITY
+
+Do NOT modify or rewrite:
+
+* Backend logic
+* Database schema
+* Financial calculations
+* USDT processing
+* INR calculations
+* Quote engine
+* Order state machine
+* Blockchain integrations
+* Custody integrations
+* Payout integrations
+* Authentication logic
+* Authorization logic
+* Risk engine
+* Compliance logic
+* Webhooks
+* Reconciliation
+* Ledger
+* API contracts
+* Provider integrations
+* Security controls
+
+Only modify the presentation layer unless a tiny frontend change is absolutely required for the redesign.
+
+If an existing component already works:
+
+> RESTYLE IT — DO NOT REIMPLEMENT IT.
+
+Do not introduce fake data.
+
+Do not replace real API data with static mock data.
+
+Do not create fake transaction statuses.
+
+Do not change the meaning of any financial information.
+
+---
+
+# 3. VISUAL DIRECTION
+
+Use a **Sky Blue + White** primary theme.
+
+The design should have:
+
+### Primary
+
+Sky Blue:
+
+```text
+#38BDF8
+```
+
+Supporting blue:
+
+```text
+#0EA5E9
+```
+
+Deep blue for important text:
+
+```text
+#0369A1
+```
+
+Very light blue:
+
+```text
+#E0F2FE
+```
+
+Background:
+
+```text
+#F8FCFF
+```
+
+White:
+
+```text
+#FFFFFF
+```
+
+Text:
+
+```text
+#0F172A
+```
+
+Secondary text:
+
+```text
+#64748B
+```
+
+Borders:
+
+```text
+#E2E8F0
+```
+
+Success:
+
+```text
+#16A34A
+```
+
+Warning:
+
+```text
+#F59E0B
+```
+
+Error:
+
+```text
+#DC2626
+```
+
+Do not use these colors excessively.
+
+Sky blue should be an **accent**, not a flood of blue across every component.
+
+---
+
+# 4. DESIGN PHILOSOPHY
+
+Follow these principles:
+
+### White space
+
+Use generous spacing.
+
+Avoid cramped layouts.
+
+### Visual hierarchy
+
+Important information should immediately stand out.
+
+### Simplicity
+
+A first-time user should understand the interface without instructions.
+
+### Trust
+
+Financial information must look precise and reliable.
+
+### Friendly
+
+Use soft shapes, subtle shadows and approachable typography.
+
+### Professional
+
+Avoid childish gradients, excessive animations, excessive glassmorphism, neon colors or flashy crypto aesthetics.
+
+---
+
+# 5. GLOBAL DESIGN SYSTEM
+
+Create a centralized design system.
+
+Use CSS variables/design tokens instead of repeatedly hardcoding colors.
+
+Example:
+
+```css
+:root {
+  --color-primary: #38BDF8;
+  --color-primary-dark: #0EA5E9;
+  --color-primary-deep: #0369A1;
+
+  --color-primary-soft: #E0F2FE;
+
+  --color-background: #F8FCFF;
+  --color-surface: #FFFFFF;
+
+  --color-text: #0F172A;
+  --color-text-secondary: #64748B;
+
+  --color-border: #E2E8F0;
+
+  --color-success: #16A34A;
+  --color-warning: #F59E0B;
+  --color-error: #DC2626;
+}
+```
+
+All components should use these variables.
+
+Do not scatter random hex colors throughout the application.
+
+---
+
+# 6. TYPOGRAPHY
+
+Use a modern professional font.
+
+Preferred:
+
+```text
+Inter
+```
+
+or:
+
+```text
+Plus Jakarta Sans
+```
+
+or another clean modern sans-serif already available in the project.
+
+Typography should have clear hierarchy:
+
+### Page title
+
+Large and strong.
+
+### Section title
+
+Medium-large and semibold.
+
+### Body
+
+Readable and comfortable.
+
+### Financial numbers
+
+Use strong typography and tabular numbers where appropriate.
+
+Example:
+
+```css
+font-variant-numeric: tabular-nums;
+```
+
+USDT and INR values should be easy to scan.
+
+---
+
+# 7. GLOBAL BACKGROUND
+
+Use an extremely subtle light background.
+
+Preferred:
+
+```css
+background: #F8FCFF;
+```
+
+Do not use a strong gradient background.
+
+If a gradient is used, keep it extremely subtle:
+
+```css
+background:
+  radial-gradient(
+    circle at top right,
+    rgba(56, 189, 248, 0.08),
+    transparent 35%
+  ),
+  #F8FCFF;
+```
+
+The page must remain predominantly white/light.
+
+---
+
+# 8. HEADER / NAVBAR
+
+Redesign the navbar.
+
+Requirements:
+
+* White background
+* Subtle bottom border
+* Clean spacing
+* Professional logo area
+* Sky-blue accent
+* Clear navigation
+* User profile area
+* Notification icon
+* Security/account access
+* Responsive mobile menu
+
+Example visual hierarchy:
+
+```text
+[ RupeeBridge ]     Dashboard   Sell USDT   Orders   Support      [User]
+```
+
+Do not make the navbar excessively tall.
+
+Use subtle hover states.
+
+---
+
+# 9. LOGO
+
+Create a simple professional visual identity.
+
+RupeeBridge branding should communicate:
+
+* Money
+* Transfer
+* Bridge
+* Reliability
+
+Do NOT use:
+
+* Bitcoin-style logos
+* Coin casino graphics
+* Excessive crypto imagery
+
+Use a simple icon + wordmark.
+
+Sky blue should be the primary brand accent.
+
+---
+
+# 10. DASHBOARD
+
+The dashboard should immediately communicate:
+
+### Main action
+
+```text
+Sell USDT
+```
+
+Make this the primary CTA.
+
+Dashboard layout:
+
+```text
+Welcome back
+
+[ Sell USDT ]
+
+Current USDT/INR Rate
+₹ XX.XX
+
+Recent Orders
+────────────────────────
+
+Order ID | Amount | INR | Status
+```
+
+Add clean cards for:
+
+* Current rate
+* Active order
+* Recent transaction
+* Account status
+* Bank account status
+
+Avoid unnecessary dashboard widgets.
+
+---
+
+# 11. SELL USDT PAGE
+
+This is one of the most important screens.
+
+Make it extremely easy to understand.
+
+Create a clean central transaction card.
+
+Example:
+
+```text
+Sell USDT
+
+You send
+┌─────────────────────────────┐
+│ 100.00 USDT                 │
+└─────────────────────────────┘
+
+Network
+┌─────────────────────────────┐
+│ USDT • Network              │
+└─────────────────────────────┘
+
+Current Rate
+₹XX.XX / USDT
+
+You receive
+₹XX,XXX.XX
+
+Fee
+₹XXX.XX
+
+Estimated payout
+₹XX,XXX.XX
+
+[ Continue ]
+```
+
+Use clear visual separation.
+
+Never make the user search for:
+
+* Rate
+* Network
+* Fee
+* Payout
+* Expiry
+
+---
+
+# 12. QUOTE CARD
+
+Create a premium quote component.
+
+Use:
+
+* White card
+* Soft shadow
+* Rounded corners
+* Blue accent
+* Large INR amount
+* Smaller supporting information
+
+Example:
+
+```text
+Your estimated payout
+
+₹8,342.00
+
+100 USDT × ₹83.42
+
+Fee              ₹XX.XX
+Net payout       ₹X,XXX.XX
+
+Quote expires in 00:28
+```
+
+The countdown should be visually clear but not alarming.
+
+---
+
+# 13. DEPOSIT INSTRUCTIONS
+
+This page must be extremely clear.
+
+Display:
+
+```text
+Send USDT
+
+Network
+TRON / Ethereum / etc.
+
+Deposit address
+
+[XXXXXXXXXXXXXXXXXXXXXXXX]
+
+[ Copy Address ]
+
+Minimum deposit
+XX USDT
+
+Required confirmations
+XX
+
+Important
+Send USDT only through the selected network.
+```
+
+Add a visually prominent but professional warning.
+
+Use light blue warning cards rather than aggressive red unless the situation is genuinely dangerous.
+
+---
+
+# 14. ORDER TRACKING
+
+Create a beautiful transaction timeline.
+
+Example:
+
+```text
+Order created
+     │
+     ●
+     │
+Deposit detected
+     │
+     ●
+     │
+Blockchain confirmation
+     │
+     ●
+     │
+Review
+     │
+     ●
+     │
+INR payout
+     │
+     ●
+     │
+Completed
+```
+
+Use sky blue for active states.
+
+Use green only for completed/successful states.
+
+Use neutral gray for pending future states.
+
+Use red only for actual failures.
+
+---
+
+# 15. ORDER STATUS
+
+Make statuses visually understandable.
+
+Examples:
+
+### Pending
+
+Soft blue/gray badge.
+
+### Processing
+
+Blue badge with subtle animation.
+
+### Completed
+
+Green badge.
+
+### Review
+
+Amber badge.
+
+### Failed
+
+Red badge.
+
+Do not use excessive animations.
+
+---
+
+# 16. ORDER HISTORY
+
+Create a clean financial table.
+
+Columns:
+
+```text
+Order
+USDT
+Rate
+INR
+Status
+Date
+Action
+```
+
+Use:
+
+* Alternating subtle row backgrounds if needed
+* Good spacing
+* Hover state
+* Responsive mobile cards
+
+Make order IDs easy to copy.
+
+---
+
+# 17. BANK ACCOUNT PAGE
+
+Create a friendly banking-style interface.
+
+Example:
+
+```text
+Your bank account
+
+HDFC Bank
+•••• •••• 4821
+
+Verified ✓
+
+[ Manage Account ]
+```
+
+Mask sensitive information.
+
+Use a subtle green verification indicator.
+
+---
+
+# 18. PROFILE & SECURITY
+
+Create clean settings sections:
+
+```text
+Profile
+Security
+Login sessions
+MFA
+Notifications
+Bank account
+Account closure
+```
+
+Use card-based settings.
+
+Avoid overwhelming users with dense forms.
+
+---
+
+# 19. ADMIN DASHBOARD
+
+The admin interface should use the same design system but have a more information-dense layout.
+
+Use:
+
+* Compact tables
+* Filters
+* Search
+* Status badges
+* Metrics
+* Charts
+* Activity timeline
+* Side navigation
+
+Keep the Sky Blue + White theme.
+
+Do not make admin pages excessively colorful.
+
+---
+
+# 20. ADMIN SIDEBAR
+
+Create a clean sidebar:
+
+```text
+RupeeBridge
+
+Dashboard
+
+Transactions
+Deposits
+Payouts
+
+Risk
+Compliance
+Reconciliation
+
+Users
+Bank Accounts
+
+Providers
+Networks
+Settings
+
+System Health
+Audit Logs
+```
+
+Highlight the active page with a subtle sky-blue background.
+
+---
+
+# 21. CARDS
+
+Use a consistent card system.
+
+Example:
+
+```css
+.card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  box-shadow:
+    0 4px 16px rgba(15, 23, 42, 0.04);
+}
+```
+
+Do not make shadows too strong.
+
+Avoid excessive glassmorphism.
+
+---
+
+# 22. BUTTONS
+
+Primary button:
+
+```text
+Sky Blue background
+White text
+```
+
+Secondary:
+
+```text
+White background
+Blue border
+Blue text
+```
+
+Danger:
+
+```text
+Red
+```
+
+Buttons should have:
+
+* Clear hover state
+* Clear disabled state
+* Loading state
+* Focus state
+* Touch-friendly size
+
+Primary CTA should be visually obvious.
+
+---
+
+# 23. INPUTS
+
+Inputs should be:
+
+* White
+* Clean borders
+* Rounded
+* Spacious
+* Easy to read
+
+Focus state:
+
+```text
+Sky blue border
+Soft blue focus ring
+```
+
+Do not use harsh black focus outlines unless required for accessibility.
+
+---
+
+# 24. TOOLTIPS & HELP
+
+Where financial terminology may confuse users, add small help indicators.
+
+Examples:
+
+```text
+Why is my rate different?
+What is a confirmation?
+What does quote expiry mean?
+Why is my transaction under review?
+```
+
+Keep explanations short.
+
+---
+
+# 25. EMPTY STATES
+
+Create professional empty states.
+
+Example:
+
+```text
+No transactions yet
+
+Your completed USDT sales will appear here.
+
+[ Sell USDT ]
+```
+
+Avoid generic:
+
+```text
+No data found.
+```
+
+---
+
+# 26. LOADING STATES
+
+Never leave blank screens.
+
+Use:
+
+* Skeleton loaders
+* Button loading states
+* Table skeletons
+* Card skeletons
+
+Avoid excessive spinners.
+
+---
+
+# 27. ERROR STATES
+
+Create friendly error messages.
+
+Instead of:
+
+```text
+ERR_PROVIDER_502
+```
+
+show:
+
+```text
+We couldn't retrieve the latest rate.
+
+Please try again in a moment.
+```
+
+Internal technical information should remain hidden.
+
+---
+
+# 28. TOAST NOTIFICATIONS
+
+Create consistent toast notifications.
+
+Success:
+
+```text
+Bank account verified successfully.
+```
+
+Information:
+
+```text
+Your deposit is being confirmed.
+```
+
+Warning:
+
+```text
+Your quote is about to expire.
+```
+
+Error:
+
+```text
+We couldn't process your request.
+Please try again.
+```
+
+---
+
+# 29. RESPONSIVE DESIGN
+
+The entire application must work perfectly on:
+
+* Desktop
+* Laptop
+* Tablet
+* Mobile
+
+Do not simply shrink desktop layouts.
+
+Create proper mobile layouts.
+
+For mobile:
+
+* Bottom navigation where appropriate
+* Large touch targets
+* Collapsible sections
+* Horizontal scrolling tables only when necessary
+* Stacked transaction information
+* Sticky primary CTA where useful
+
+---
+
+# 30. ACCESSIBILITY
+
+Follow WCAG-oriented principles.
+
+Implement:
+
+* Proper contrast
+* Keyboard navigation
+* Visible focus states
+* Semantic HTML
+* ARIA labels where required
+* Screen-reader-friendly status messages
+* Accessible forms
+* Accessible error messages
+* Reduced-motion support
+
+Never rely solely on color to communicate status.
+
+For example:
+
+```text
+✓ Completed
+⏳ Processing
+! Review required
+× Failed
+```
+
+---
+
+# 31. ANIMATION
+
+Use subtle professional animations only.
+
+Examples:
+
+* Card hover
+* Button hover
+* Page transitions
+* Skeleton shimmer
+* Status transitions
+
+Duration:
+
+```text
+150ms – 250ms
+```
+
+Avoid:
+
+* Excessive bouncing
+* Neon effects
+* Flashing
+* Large parallax
+* Constant movement
+
+Respect:
+
+```css
+prefers-reduced-motion
+```
+
+---
+
+# 32. MOBILE-FIRST FINANCIAL UX
+
+On mobile, the user should be able to complete:
+
+```text
+Open app
+→ Sell USDT
+→ Review rate
+→ View deposit address
+→ Copy address
+→ Track transaction
+→ View payout
+```
+
+with minimal friction.
+
+Important financial values must remain visible without excessive scrolling.
+
+---
+
+# 33. DARK MODE
+
+Do NOT make dark mode the default.
+
+The default experience must be:
+
+# Sky Blue + White
+
+If the application already supports dark mode, preserve it without breaking it.
+
+If dark mode does not exist, do not make it a priority.
+
+Focus on perfecting the light theme first.
+
+---
+
+# 34. CSS ARCHITECTURE
+
+Do not create messy CSS.
+
+Use:
+
+* CSS variables
+* Reusable utility classes where appropriate
+* Component-level styles
+* Consistent spacing tokens
+* Consistent radius tokens
+* Consistent shadow tokens
+* Responsive breakpoints
+
+Example:
+
+```css
+:root {
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+}
+```
+
+Do not duplicate styling unnecessarily.
+
+---
+
+# 35. COMPONENT CONSISTENCY
+
+Create/reuse components for:
+
+* Button
+* Input
+* Select
+* Card
+* Modal
+* Dialog
+* Badge
+* Alert
+* Toast
+* Table
+* Pagination
+* Tabs
+* Dropdown
+* Tooltip
+* Status indicator
+* Transaction timeline
+* Quote card
+* Currency amount
+* Copy button
+* Empty state
+* Loading state
+
+The same component should look and behave consistently throughout the application.
+
+---
+
+# 36. FINANCIAL NUMBER FORMATTING
+
+Make financial values highly readable.
+
+Examples:
+
+```text
+100.00 USDT
+₹8,342.00
+₹83.42 / USDT
+```
+
+Use proper spacing and typography.
+
+Do not visually confuse:
+
+```text
+USDT
+USD
+INR
+```
+
+Always clearly display the currency/asset.
+
+---
+
+# 37. TRUST & TRANSPARENCY
+
+The UI should visually reinforce:
+
+* Clear pricing
+* Clear fees
+* Clear status
+* Clear network
+* Clear payout amount
+* Clear processing state
+
+Never hide important financial information behind unnecessary interactions.
+
+---
+
+# 38. SECURITY UX
+
+Security-related actions should be clear but not frightening.
+
+Examples:
+
+```text
+MFA enabled ✓
+
+Your account has additional protection.
+```
+
+For suspicious login:
+
+```text
+New login detected
+
+If this wasn't you, secure your account immediately.
+```
+
+---
+
+# 39. PERFORMANCE
+
+The redesign must not significantly reduce performance.
+
+Optimize:
+
+* CSS
+* Images
+* Fonts
+* Animations
+* Component rendering
+* Client-side JavaScript
+
+Avoid unnecessary dependencies.
+
+Do not install a large UI framework merely for styling if the project already has an adequate component system.
+
+---
+
+# 40. FINAL VISUAL TARGET
+
+The final product should feel similar in design quality to a modern premium fintech application.
+
+Visual characteristics:
+
+```text
+White foundation
++
+Sky-blue accents
++
+Soft borders
++
+Subtle shadows
++
+Rounded cards
++
+Clean typography
++
+Excellent spacing
++
+Clear financial numbers
++
+Simple navigation
++
+Friendly micro-interactions
+```
+
+The result should communicate:
+
+> “This is a professional financial service that is easy to understand.”
+
+---
+
+# 41. IMPLEMENTATION PROCESS
+
+Before changing code:
+
+1. Inspect the existing frontend.
+2. Identify the current design system.
+3. Identify reusable components.
+4. Identify duplicated CSS.
+5. Identify responsive problems.
+6. Identify accessibility problems.
+7. Identify inconsistent colors.
+8. Identify inconsistent spacing.
+9. Identify inconsistent typography.
+
+Then create a redesign plan.
+
+After planning:
+
+1. Create centralized design tokens.
+2. Update global styles.
+3. Update typography.
+4. Update navigation.
+5. Update dashboard.
+6. Update Sell USDT flow.
+7. Update quote components.
+8. Update deposit instructions.
+9. Update order tracking.
+10. Update order history.
+11. Update bank-account UI.
+12. Update profile/security.
+13. Update admin panels.
+14. Update forms.
+15. Update tables.
+16. Update notifications.
+17. Update loading/error states.
+18. Optimize mobile layouts.
+19. Perform accessibility pass.
+20. Perform final visual consistency pass.
+
+---
+
+# 42. STRICT RESTRICTIONS
+
+DO NOT:
+
+* Rewrite backend code
+* Change database schema
+* Change API behavior
+* Change transaction calculations
+* Change financial rules
+* Change blockchain behavior
+* Change payout behavior
+* Change authentication architecture
+* Remove security controls
+* Remove audit logging
+* Replace real data with mock data
+* Add fake data
+* Add fake transactions
+* Add fake balances
+* Add fake rates
+* Add fake provider statuses
+
+If you encounter a frontend bug unrelated to the redesign, fix only what is necessary and do not alter backend business logic.
+
+---
+
+# 43. FINAL QA CHECKLIST
+
+Before finishing, verify:
+
+### Visual
+
+* [ ] Sky Blue + White theme
+* [ ] Consistent colors
+* [ ] Consistent typography
+* [ ] Consistent spacing
+* [ ] Consistent cards
+* [ ] Consistent buttons
+* [ ] Consistent forms
+* [ ] Professional dashboard
+* [ ] Professional transaction flow
+
+### UX
+
+* [ ] Sell USDT is obvious
+* [ ] Fees are clear
+* [ ] Rate is clear
+* [ ] Network is clear
+* [ ] Deposit address is clear
+* [ ] Status is clear
+* [ ] Errors are understandable
+* [ ] Empty states are useful
+
+### Responsive
+
+* [ ] Desktop
+* [ ] Tablet
+* [ ] Mobile
+* [ ] Small mobile screens
+
+### Accessibility
+
+* [ ] Keyboard navigation
+* [ ] Focus states
+* [ ] Contrast
+* [ ] Screen readers
+* [ ] Reduced motion
+* [ ] Semantic HTML
+
+### Technical
+
+* [ ] No backend changes
+* [ ] No financial logic changes
+* [ ] No API breaking changes
+* [ ] No fake data
+* [ ] No unnecessary dependencies
+* [ ] No console errors
+* [ ] No TypeScript errors
+* [ ] No broken routes
+* [ ] No broken forms
+
+---
+
+# FINAL INSTRUCTION
+
+Take the **existing RupeeBridge application** and perform a complete frontend visual/UX modernization.
+
+Do not rebuild the product.
+
+Do not change its financial behavior.
+
+Do not change its backend.
+
+Do not change its security architecture.
+
+Do not change its APIs.
+
+Keep all existing functionality intact.
+
+Only make the application:
+
+**more professional, more friendly, cleaner, easier to understand, more accessible, more responsive, and visually consistent using a premium Sky Blue + White fintech design system.**
+
+The final result should look like a polished production fintech product rather than a developer dashboard or generic template.

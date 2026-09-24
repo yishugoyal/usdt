@@ -1,0 +1,1567 @@
+# RUPEEBRIDGE
+
+## Advanced Production-Grade USDT → INR Sell-to-Company Platform
+
+### Master Engineering, Architecture, Security & Operations Specification
+
+---
+
+## 1. ROLE
+
+You are acting as a multidisciplinary senior engineering organization consisting of:
+
+* Principal Software Architect
+* Senior FinTech Architect
+* Blockchain Engineer
+* Backend Engineer
+* Frontend Engineer
+* Security Engineer
+* DevSecOps Engineer
+* Database Architect
+* Financial Systems Engineer
+* Payment Systems Engineer
+* Compliance-Systems Architect
+* QA/Test Engineer
+* Site Reliability Engineer
+* Product Designer
+* Technical Documentation Engineer
+
+Design and implement a **production-grade USDT-to-INR sell-to-company platform** called:
+
+# RupeeBridge
+
+The platform allows eligible users to sell supported USDT to the company and receive INR into their verified bank account.
+
+This is a **company-to-user transaction platform, not a peer-to-peer marketplace**.
+
+The company is the counterparty for every transaction.
+
+---
+
+# 2. CRITICAL PRODUCT PRINCIPLE
+
+The core transaction must follow this model:
+
+```text
+USER
+  │
+  │ Sell USDT
+  ▼
+RUPEEBRIDGE
+  │
+  ├── Quote
+  ├── Risk checks
+  ├── Compliance policy checks
+  ├── Deposit address
+  ├── Blockchain confirmation
+  ├── Settlement
+  │
+  ▼
+VERIFIED USER BANK ACCOUNT
+  │
+  ▼
+INR
+```
+
+Never implement:
+
+* User-to-user matching
+* P2P marketplace functionality
+* P2P chat
+* User-to-user payments
+* User-to-user offers
+* User-to-user order matching
+* Investment products
+* Lending
+* Staking
+* Leverage
+* Copy trading
+* Guaranteed investment returns
+* Fake profit calculations
+* Fake balances
+* Fake transaction confirmations
+* Fake blockchain transactions
+* Fake regulatory registrations
+* Fake licenses
+* Fake certificates
+
+---
+
+# 3. USER KYC REQUIREMENT
+
+Do **not** create a user-facing KYC submission workflow.
+
+Do not create:
+
+* KYC document upload screens
+* User KYC application forms
+* User KYC approval/rejection screens
+* User identity-document dashboards
+* User-facing KYC document management
+* User-facing KYC verification queues
+
+The primary user experience should not require the user to manually complete a traditional KYC workflow inside RupeeBridge.
+
+However, do **not** interpret this as permission to bypass applicable AML, sanctions, tax, banking, identity, reporting, or other legal obligations.
+
+The system must support a configurable compliance architecture so that legally required checks can be performed through approved providers or operational processes when applicable.
+
+If the selected business model or jurisdiction requires identity verification before a transaction, the transaction must be blocked until the required verification has been completed.
+
+Never claim that the platform is legally compliant merely because the KYC screens were removed.
+
+---
+
+# 4. PRODUCTION SAFETY
+
+This is a real-money and real-asset system.
+
+Do not build a fake production simulation.
+
+Do not create:
+
+* Fake wallet balances
+* Fake USDT deposits
+* Fake INR payouts
+* Fake transaction hashes
+* Fake payout references
+* Fake blockchain confirmations
+* Fake provider responses
+* Fake compliance approvals
+* Fake bank transfers
+* Fake exchange rates
+
+Every production-sensitive capability must either:
+
+1. Be implemented securely, or
+2. Be connected through a documented provider integration.
+
+All external integrations must support:
+
+* Server-side credentials
+* Secure secrets management
+* Webhooks
+* Signature verification
+* Idempotency
+* Retry handling
+* Reconciliation
+* Monitoring
+* Failure handling
+* Audit logging
+
+---
+
+# 5. PRODUCTION ACTIVATION GATE
+
+Real-money functionality must remain disabled until all required configuration and approvals are complete.
+
+Create a centralized:
+
+## Production Readiness Engine
+
+Required configuration should include:
+
+* Legal entity configuration
+* Operating jurisdiction configuration
+* Applicable regulatory/compliance status
+* AML policy configuration
+* Tax configuration
+* Banking/payout-provider approval
+* Custody/wallet-provider configuration
+* Supported blockchain networks
+* Asset configuration
+* Risk-provider configuration
+* Sanctions-screening configuration where applicable
+* Privacy configuration
+* Data-retention configuration
+* Terms and disclosures
+* Incident-response contacts
+* Staff MFA
+* Payout approval rules
+* Transaction limits
+* Monitoring
+* Alerting
+* Backup verification
+* Disaster-recovery verification
+
+If a mandatory production gate is incomplete:
+
+```text
+REAL-MONEY TRANSACTIONS = DISABLED
+```
+
+Display:
+
+> Service activation is pending required legal, compliance, banking, and security approvals.
+
+Never fabricate approval information.
+
+---
+
+# 6. USER ACCOUNT SYSTEM
+
+Implement secure user registration.
+
+User workflow:
+
+1. Register with email and mobile number.
+2. Verify email.
+3. Verify mobile number.
+4. Enable MFA.
+5. Complete required account information.
+6. Add a bank account.
+7. Complete required bank-account verification.
+8. Request a live USDT/INR sell quote.
+9. Review quote.
+10. Accept transaction terms.
+11. Create sell order.
+12. Receive deposit instructions.
+13. Send USDT.
+14. Wait for blockchain confirmation.
+15. System performs automated risk/compliance checks where applicable.
+16. Order becomes eligible for settlement.
+17. INR payout is initiated.
+18. User receives transaction receipt.
+
+Do not insert a traditional user KYC application step into this workflow.
+
+---
+
+# 7. AUTHENTICATION
+
+Implement:
+
+* Secure password hashing
+* HTTP-only secure cookies
+* Session rotation
+* MFA
+* Login rate limiting
+* Brute-force protection
+* Device/session management
+* Account lockout
+* Password reset protection
+* Re-authentication for sensitive actions
+* Session expiration
+* Suspicious-login detection
+* Login notifications
+* Email verification
+* Mobile verification
+
+Sensitive actions should require step-up authentication.
+
+Examples:
+
+* Adding a bank account
+* Changing a bank account
+* Creating a large transaction
+* Changing security settings
+* Closing an account
+* High-value payout actions
+
+---
+
+# 8. BANK ACCOUNT SYSTEM
+
+Users must only receive INR through an approved payout mechanism.
+
+Implement:
+
+* Bank-account registration
+* Bank-account verification
+* Beneficiary verification
+* Account ownership verification
+* Bank-name storage
+* Account-number masking
+* IFSC validation where applicable
+* Cooling-off period after account changes
+* Payout-account locking
+* Payout limits
+* Multiple-account rules
+* Duplicate-account detection
+* Bank-account status
+* Bank-account audit history
+
+Never expose complete bank-account information unnecessarily.
+
+Never allow arbitrary third-party payout accounts unless the approved legal/business policy explicitly permits it.
+
+---
+
+# 9. LIVE USDT/INR QUOTE ENGINE
+
+Create a server-side quote engine.
+
+Never calculate final financial values solely in the browser.
+
+The quote engine must:
+
+* Obtain rates from approved providers
+* Store provider response
+* Store timestamp
+* Store rate source
+* Apply configurable spread
+* Apply company fee
+* Apply permitted deductions
+* Use decimal-safe arithmetic
+* Support quote expiry
+* Support quote locking
+* Handle stale prices
+* Handle provider outages
+* Record calculation formula
+* Record final settlement rate
+* Prevent client-side manipulation
+
+Display:
+
+* USDT amount
+* Current rate
+* Gross INR
+* Company fee
+* Applicable deductions
+* Net INR
+* Rate source/time
+* Quote expiry
+* Estimated processing time
+
+Never call a quote guaranteed unless the backend actually locks and honors it.
+
+---
+
+# 10. USDT ASSET ARCHITECTURE
+
+Initially support only explicitly approved USDT networks.
+
+Every order must clearly display:
+
+* Asset
+* Network
+* Deposit address
+* Memo/tag requirement where applicable
+* Minimum deposit
+* Required confirmations
+* Deposit expiry
+* Unsupported asset warning
+* Wrong-network warning
+
+The server must reject, quarantine, or escalate:
+
+* Unsupported networks
+* Unsupported assets
+* Wrong-network deposits
+* Invalid destination data
+* Duplicate transaction hashes
+* Below-minimum deposits
+* Expired deposits
+* Suspicious deposits
+* Unknown assets
+
+Never assume USDT on one network is interchangeable with USDT on another network.
+
+Never mark a blockchain deposit complete from:
+
+* Screenshot
+* User-submitted transaction hash
+* Browser state
+* Client-side confirmation
+
+Blockchain/provider data must be independently verified.
+
+---
+
+# 11. ORDER-SPECIFIC DEPOSIT ARCHITECTURE
+
+Every sell order must have a unique deposit context.
+
+Prefer:
+
+```text
+Sell Order
+    ↓
+Unique Deposit Address / Provider Deposit Instruction
+    ↓
+Blockchain Transaction
+    ↓
+Confirmation Engine
+    ↓
+Risk Engine
+    ↓
+Settlement
+```
+
+Deposit records must include:
+
+* Order ID
+* Asset
+* Network
+* Deposit address
+* Expected amount
+* Actual amount
+* Transaction hash
+* Block number
+* Confirmation count
+* Provider event ID
+* Detection timestamp
+* Confirmation timestamp
+* Deposit status
+
+Prevent deposit reuse and transaction duplication.
+
+---
+
+# 12. BLOCKCHAIN MONITORING
+
+Create a blockchain-monitoring service.
+
+It must support:
+
+* Provider webhooks
+* Trusted blockchain/indexer APIs
+* Confirmation tracking
+* Transaction lookup
+* Asset verification
+* Network verification
+* Destination verification
+* Amount verification
+* Reorganization handling where relevant
+* Provider outage handling
+* Duplicate-event handling
+
+Do not trust the frontend.
+
+Do not trust a client-submitted transaction hash.
+
+---
+
+# 13. RISK ENGINE
+
+Create a configurable server-side risk engine.
+
+Potential rules include:
+
+* High-value transaction
+* Unusual transaction velocity
+* Repeated transactions
+* Structuring indicators
+* Multiple accounts sharing bank details
+* Multiple accounts sharing suspicious identifiers
+* Sanctions/watchlist results where applicable
+* High-risk wallet exposure
+* Mixer/sanctioned-address exposure
+* Unsupported source
+* Rapid bank-account changes
+* Device changes
+* Location anomalies
+* Duplicate deposits
+* Abnormal cancellation behavior
+* Account takeover indicators
+
+Risk rules must be configurable without modifying core business logic.
+
+User-facing message:
+
+> Your transaction requires additional review.
+
+Do not accuse users of criminal activity.
+
+---
+
+# 14. COMPLIANCE ARCHITECTURE
+
+Although there is no traditional user-facing KYC workflow, create a backend compliance abstraction layer.
+
+The architecture must support, where legally required:
+
+* Identity verification provider
+* Sanctions screening
+* PEP screening
+* Transaction monitoring
+* Source-of-funds review
+* Source-of-wealth review
+* Regulatory reporting workflows
+* Account restrictions
+* Manual investigation
+* Risk scoring
+* Compliance case management
+
+Do not store sensitive identity information unnecessarily.
+
+Prefer tokenized/provider-hosted data where appropriate.
+
+The system must be configurable based on the operating jurisdiction and legal advice.
+
+---
+
+# 15. COMPLIANCE CASE MANAGEMENT
+
+Create internal compliance cases.
+
+Each case can contain:
+
+* Case ID
+* Trigger
+* User reference
+* Order reference
+* Evidence
+* Risk signals
+* Analyst notes
+* Decision
+* Reviewer
+* Timestamp
+* Escalation
+* Related blockchain transactions
+* Related payouts
+* Reporting workflow
+
+Users should only see appropriate status information.
+
+Never expose internal investigation notes to ordinary users.
+
+---
+
+# 16. CUSTODY/WALLET ARCHITECTURE
+
+Do not build unsafe private-key management.
+
+Use an approved institutional custody or wallet provider.
+
+Required capabilities:
+
+* Segregated environments
+* Hardware-backed key management where available
+* Multi-approval controls
+* Address whitelisting
+* Deposit-address management
+* Withdrawal controls
+* Transaction-policy enforcement
+* Signed webhooks
+* IP restrictions where supported
+* Provider monitoring
+* Disaster recovery
+* Reconciliation
+
+Never place private keys in:
+
+* Frontend source
+* Git repositories
+* Database fields
+* Application logs
+* Chat messages
+* Support tickets
+* Ordinary environment variables without an approved secret-management system
+
+Create a custody abstraction layer.
+
+---
+
+# 17. INR PAYOUT ENGINE
+
+Use a legitimate banking or payout provider appropriate for the approved business model.
+
+Implement:
+
+* Beneficiary verification
+* Bank-account verification
+* Payout creation
+* Payout approval
+* Payout limits
+* Dual approval
+* Idempotency
+* Provider webhooks
+* Webhook signature verification
+* Duplicate payout prevention
+* Failed payout handling
+* Reversed payout handling
+* Pending states
+* Reconciliation
+* Provider references
+* Authorized manual retry
+* Daily payout reports
+
+Never mark a payout completed merely because the application requested it.
+
+Only mark:
+
+```text
+COMPLETED
+```
+
+after authoritative provider confirmation.
+
+---
+
+# 18. TRANSACTION STATE MACHINE
+
+Implement a strict server-side state machine.
+
+Possible states:
+
+```text
+DRAFT
+QUOTE_REQUESTED
+QUOTE_LOCKED
+QUOTE_EXPIRED
+AWAITING_DEPOSIT
+DEPOSIT_DETECTED
+CONFIRMING
+DEPOSIT_CONFIRMED
+RISK_REVIEW
+COMPLIANCE_REVIEW
+ADDITIONAL_REVIEW_REQUIRED
+APPROVED_FOR_PAYOUT
+PAYOUT_PENDING
+PAYOUT_PROCESSING
+PAYOUT_COMPLETED
+PAYOUT_FAILED
+REJECTED
+CANCELLED
+EXPIRED
+RECOVERY_REQUIRED
+REFUNDED
+COMPLETED
+```
+
+State transitions must be validated server-side.
+
+Users cannot directly modify order states.
+
+Every transition must be auditable.
+
+---
+
+# 19. FINANCIAL LEDGER
+
+Create an immutable financial ledger.
+
+Use:
+
+* Decimal database types
+* Database transactions
+* Double-entry accounting principles where applicable
+* Immutable entries
+* Unique constraints
+* Idempotency
+* Reconciliation
+* Append-only audit history
+
+Never use JavaScript floating-point arithmetic for financial calculations.
+
+Never calculate:
+
+```javascript
+0.1 + 0.2
+```
+
+as a financial settlement mechanism.
+
+Use decimal-safe libraries and database decimal types.
+
+---
+
+# 20. DATABASE
+
+Use:
+
+* PostgreSQL
+* Prisma or another mature ORM
+* UUID public identifiers
+* Strict foreign keys
+* Decimal types
+* Unique constraints
+* Transaction boundaries
+* Versioned state transitions
+* Idempotency keys
+* Outbox/event pattern
+* Append-only audit logs
+* Reconciliation records
+* Soft deletion where legally appropriate
+* Encryption/tokenization for sensitive data
+
+Core entities:
+
+```text
+User
+UserProfile
+BankAccount
+Asset
+Network
+RateProvider
+RateQuote
+SellOrder
+DepositAddress
+BlockchainTransaction
+ConfirmationRecord
+RiskAlert
+ComplianceCase
+Payout
+LedgerEntry
+FeeRule
+TaxRule
+LimitRule
+Notification
+SupportTicket
+StaffUser
+Role
+Permission
+AuditLog
+WebhookEvent
+ReconciliationRecord
+Incident
+SystemSetting
+ProductionReadinessCheck
+ProviderConfiguration
+```
+
+---
+
+# 21. ADMIN ARCHITECTURE
+
+Create separate role-based internal consoles.
+
+## Compliance
+
+* Risk alerts
+* Compliance cases
+* Transaction review
+* Restrictions
+* Screening results
+* Investigation history
+* Audit trail
+
+## Finance
+
+* Approved payout queue
+* Payout approval
+* Dual approval
+* Settlement
+* Reconciliation
+* Failed payouts
+* Daily reports
+
+## Operations
+
+* Active orders
+* Blockchain confirmations
+* Provider status
+* Webhooks
+* Stale orders
+* Network incidents
+* Recovery cases
+
+## Support
+
+* User lookup
+* Order timeline
+* Masked information
+* Support tickets
+* Approved communication templates
+
+Support staff must not be able to modify financial records.
+
+## Super Admin
+
+* Staff accounts
+* Roles
+* Permissions
+* Fees
+* Limits
+* Networks
+* Assets
+* Provider configuration
+* Feature flags
+* System configuration
+* Audit logs
+
+---
+
+# 22. DUAL CONTROL
+
+Require two authorized staff members for sensitive operations.
+
+Examples:
+
+* Manual payout release
+* Large payout
+* Wallet-policy changes
+* Network activation
+* Fee changes
+* Limit changes
+* Restriction removal
+* Recovery action
+* Refund action
+
+No single administrator should be able to bypass financial controls.
+
+---
+
+# 23. USER APPLICATION
+
+Create a professional responsive application with:
+
+* Dashboard
+* Sell USDT
+* Live quote
+* Deposit instructions
+* Order tracking
+* Transaction history
+* Receipts
+* Bank accounts
+* Notifications
+* Support
+* Security settings
+* Profile
+* Account closure
+
+The interface must make these impossible to misunderstand:
+
+* USDT amount
+* Network
+* Deposit address
+* INR amount
+* Fee
+* Final payout
+* Transaction status
+
+Design for desktop and mobile.
+
+---
+
+# 24. RECEIPTS
+
+Generate transaction receipts containing:
+
+* Order ID
+* User reference
+* USDT amount
+* Network
+* Blockchain transaction hash
+* Rate
+* Rate timestamp
+* Gross INR
+* Fees
+* Applicable deductions
+* Net INR
+* Payout reference
+* Payout status
+* Completion timestamp
+
+Never fabricate transaction information.
+
+---
+
+# 25. WEBHOOK SECURITY
+
+Every webhook must implement:
+
+* Signature verification
+* Timestamp validation
+* Replay protection
+* Idempotency
+* Raw-body verification
+* Event persistence
+* Retry handling
+* Dead-letter queue
+* Provider reconciliation
+* Unknown-event alerting
+
+No financial event should be trusted solely because it originated from a browser request.
+
+---
+
+# 26. API SECURITY
+
+Implement:
+
+* Authentication
+* Authorization
+* RBAC
+* Request validation
+* Schema validation
+* Rate limiting
+* API versioning
+* Idempotency keys
+* CSRF protection where applicable
+* Secure headers
+* Input sanitization
+* Output encoding
+* Audit logging
+* Abuse detection
+
+Never trust:
+
+* Client-provided prices
+* Client-provided balances
+* Client-provided transaction states
+* Client-provided fees
+* Client-provided payout status
+* Client-provided blockchain confirmation
+
+---
+
+# 27. TECHNOLOGY STACK
+
+Preferred stack:
+
+### Frontend
+
+* Next.js
+* TypeScript
+* React
+* Accessible component architecture
+* Responsive UI
+* Secure authentication
+
+### Backend
+
+* TypeScript
+* Node.js
+* Next.js API/server or dedicated backend
+* PostgreSQL
+* Prisma
+* Redis
+* Background workers
+
+### Infrastructure
+
+* Managed PostgreSQL
+* Managed Redis
+* Private object storage
+* Managed secrets
+* WAF
+* DDoS protection
+* Centralized logging
+* Metrics
+* Error tracking
+* Monitoring
+* Backups
+* Point-in-time recovery
+
+Maintain separate:
+
+```text
+development
+staging
+production
+```
+
+Never use production credentials in development.
+
+---
+
+# 28. BACKGROUND WORKERS
+
+Create workers for:
+
+* Blockchain monitoring
+* Confirmation processing
+* Webhook processing
+* Quote expiry
+* Order expiry
+* Risk analysis
+* Notifications
+* Payout reconciliation
+* Bank reconciliation
+* Provider health monitoring
+* Dead-letter processing
+* Scheduled reports
+
+Critical jobs must be retry-safe.
+
+---
+
+# 29. OBSERVABILITY
+
+Create dashboards for:
+
+* Login failures
+* Suspicious authentication
+* Transaction volume
+* Deposit failures
+* Blockchain-provider outages
+* Stale deposits
+* Unconfirmed transactions
+* Payout failures
+* Duplicate webhooks
+* Duplicate payout attempts
+* Reconciliation mismatches
+* High-value transactions
+* Unexpected balance changes
+* Queue backlog
+* Database errors
+* API latency
+* Error rates
+* Provider failures
+* Privilege changes
+
+Create actionable alerts.
+
+Avoid alert spam.
+
+---
+
+# 30. INCIDENT RESPONSE
+
+Create runbooks for:
+
+* Wrong-network deposit
+* Suspicious transaction
+* Account takeover
+* Custody outage
+* Blockchain-provider outage
+* Payout-provider outage
+* Database outage
+* Data breach
+* Duplicate payout
+* Reconciliation mismatch
+* Custody/private-key incident
+* Incorrect rate
+* Provider webhook failure
+
+Every incident should have:
+
+* Severity
+* Owner
+* Detection
+* Containment
+* Investigation
+* Resolution
+* Recovery
+* Post-incident review
+
+---
+
+# 31. TESTING
+
+Implement:
+
+### Unit tests
+
+* Rate calculation
+* Fee calculation
+* Decimal precision
+* Limits
+* State transitions
+* Risk rules
+
+### Integration tests
+
+* Database
+* Blockchain provider
+* Custody provider
+* Payout provider
+* Rate provider
+* Webhooks
+
+### End-to-end tests
+
+Test the entire flow:
+
+```text
+Registration
+→ Verification
+→ Bank account
+→ Quote
+→ Order
+→ Deposit
+→ Confirmation
+→ Risk
+→ Approval
+→ Payout
+→ Receipt
+```
+
+Also test:
+
+* Duplicate transaction
+* Duplicate webhook
+* Duplicate payout
+* Wrong network
+* Unsupported asset
+* Expired quote
+* Expired order
+* Provider outage
+* Race conditions
+* Authorization failures
+* Recovery
+* Database failure
+* Worker failure
+
+---
+
+# 32. SECURITY TESTING
+
+Before production:
+
+* Dependency scanning
+* Secret scanning
+* Static analysis
+* Container scanning
+* Dynamic security testing
+* Penetration testing
+* Authorization testing
+* Authentication testing
+* API abuse testing
+* Webhook security testing
+* Race-condition testing
+* Infrastructure security review
+* Independent security assessment
+
+---
+
+# 33. DATA PROTECTION
+
+Sensitive information must be:
+
+* Minimized
+* Encrypted
+* Access-controlled
+* Logged appropriately
+* Retained only as required
+* Deleted according to approved retention policy
+
+Sensitive information must never appear in ordinary logs.
+
+Examples:
+
+* Passwords
+* Secrets
+* API keys
+* Private keys
+* Full bank details
+* Authentication tokens
+
+---
+
+# 34. RATE LIMITING & ANTI-ABUSE
+
+Implement rate limits for:
+
+* Login
+* Registration
+* OTP requests
+* Quote requests
+* Order creation
+* Bank-account changes
+* Sensitive actions
+* API requests
+* Support actions
+
+Use Redis or another appropriate distributed mechanism.
+
+Protect against:
+
+* Brute force
+* Credential stuffing
+* Bot abuse
+* Quote abuse
+* Order spam
+* Webhook flooding
+* API scraping
+
+---
+
+# 35. RECONCILIATION
+
+Create automated reconciliation between:
+
+```text
+Application Ledger
+        ↕
+Custody Provider
+        ↕
+Blockchain
+        ↕
+Payout Provider
+        ↕
+Banking Records
+```
+
+Detect:
+
+* Missing deposits
+* Unexpected deposits
+* Missing payouts
+* Duplicate payouts
+* Incorrect amounts
+* Provider/application mismatches
+* Ledger mismatches
+* Balance mismatches
+
+Never silently correct a financial mismatch.
+
+Create an auditable reconciliation workflow.
+
+---
+
+# 36. PUBLIC DISCLOSURES
+
+Prepare configurable templates for:
+
+* Terms of Service
+* Privacy Policy
+* Risk Disclosure
+* Deposit Policy
+* Network Policy
+* Fee Policy
+* Refund/Recovery Policy
+* Data Retention Policy
+* Grievance Policy
+* Security Contact
+* Service Availability Policy
+
+Do not invent legal language and present it as lawyer-approved.
+
+Do not claim regulatory approval unless supplied and verified by authorized legal/compliance personnel.
+
+---
+
+# 37. API DOCUMENTATION
+
+Document:
+
+* Authentication
+* Users
+* Bank accounts
+* Quotes
+* Sell orders
+* Deposits
+* Transactions
+* Payouts
+* Receipts
+* Webhooks
+* Admin APIs
+* Reconciliation
+* Error codes
+* Idempotency
+* Rate limits
+
+Use OpenAPI where appropriate.
+
+---
+
+# 38. ENVIRONMENT CONFIGURATION
+
+Never hardcode secrets.
+
+Create environment configuration for:
+
+```text
+DATABASE_URL
+REDIS_URL
+AUTH_SECRET
+ENCRYPTION_KEY
+CUSTODY_PROVIDER_KEY
+CUSTODY_WEBHOOK_SECRET
+BLOCKCHAIN_PROVIDER_KEY
+PAYOUT_PROVIDER_KEY
+PAYOUT_WEBHOOK_SECRET
+RATE_PROVIDER_KEY
+KYC/COMPLIANCE_PROVIDER_KEY_IF_REQUIRED
+OBJECT_STORAGE_CREDENTIALS
+```
+
+Use managed secret storage in production.
+
+Never commit `.env` secrets to source control.
+
+---
+
+# 39. FEATURE FLAGS
+
+Create feature flags for:
+
+* Production trading
+* USDT networks
+* New networks
+* New payout providers
+* Maintenance mode
+* High-value trading
+* Quote locking
+* Manual review
+* Automated payout
+* Risk rules
+* Emergency transaction freeze
+
+Critical financial features must default to disabled until explicitly activated.
+
+---
+
+# 40. EMERGENCY CONTROLS
+
+Create an emergency system-wide freeze.
+
+Authorized staff must be able to disable:
+
+* New orders
+* Deposits
+* Payouts
+* Specific networks
+* Specific assets
+* Specific providers
+
+Existing orders must remain auditable.
+
+Emergency controls must themselves be audited.
+
+---
+
+# 41. DESIGN REQUIREMENTS
+
+The product should look like a serious modern financial platform.
+
+Design principles:
+
+* Clean
+* Professional
+* Minimal
+* Trustworthy
+* Responsive
+* Accessible
+* Fast
+* Clear financial information
+* Strong visual hierarchy
+* No unnecessary animations
+* No misleading financial graphics
+
+Use clear status indicators.
+
+Never make pending transactions visually appear completed.
+
+---
+
+# 42. ERROR HANDLING
+
+Every failure must produce a controlled state.
+
+Examples:
+
+```text
+QUOTE_PROVIDER_UNAVAILABLE
+BLOCKCHAIN_PROVIDER_UNAVAILABLE
+DEPOSIT_NOT_FOUND
+WRONG_NETWORK
+UNSUPPORTED_ASSET
+DEPOSIT_EXPIRED
+RISK_REVIEW_REQUIRED
+PAYOUT_PROVIDER_UNAVAILABLE
+PAYOUT_FAILED
+RECONCILIATION_MISMATCH
+ACCOUNT_RESTRICTED
+PRODUCTION_GATE_INCOMPLETE
+```
+
+Never expose internal stack traces to users.
+
+Never silently swallow financial errors.
+
+---
+
+# 43. DEVELOPMENT WORKFLOW
+
+Build in this order:
+
+### Phase 1
+
+Architecture and threat model.
+
+### Phase 2
+
+Database schema and migrations.
+
+### Phase 3
+
+Authentication and authorization.
+
+### Phase 4
+
+User accounts and bank accounts.
+
+### Phase 5
+
+Quote engine.
+
+### Phase 6
+
+Order state machine.
+
+### Phase 7
+
+Blockchain/custody abstraction.
+
+### Phase 8
+
+Deposit monitoring.
+
+### Phase 9
+
+Risk/compliance abstraction.
+
+### Phase 10
+
+Payout abstraction.
+
+### Phase 11
+
+Ledger and reconciliation.
+
+### Phase 12
+
+Admin consoles.
+
+### Phase 13
+
+Notifications and receipts.
+
+### Phase 14
+
+Observability.
+
+### Phase 15
+
+Testing.
+
+### Phase 16
+
+Security hardening.
+
+### Phase 17
+
+Staging deployment.
+
+### Phase 18
+
+Provider sandbox testing.
+
+### Phase 19
+
+Production-readiness review.
+
+### Phase 20
+
+Production activation.
+
+---
+
+# 44. IMPORTANT IMPLEMENTATION RULE
+
+Do not pretend an external provider exists if no provider credentials or API documentation are available.
+
+If credentials are missing:
+
+Create a clean provider interface such as:
+
+```text
+RateProvider
+CustodyProvider
+BlockchainProvider
+PayoutProvider
+ComplianceProvider
+NotificationProvider
+```
+
+Then provide:
+
+* Interface
+* Adapter
+* Validation
+* Configuration
+* Mock/sandbox implementation for testing
+* Production adapter structure
+
+Clearly mark anything requiring real credentials.
+
+Do not replace missing integrations with fake production behavior.
+
+---
+
+# 45. PRODUCTION COMPLETION CRITERIA
+
+The project is NOT complete merely because the frontend looks finished.
+
+It is complete only when:
+
+* Production gates are implemented
+* Authentication is secure
+* Bank accounts are verified
+* Quotes are server-controlled
+* Financial calculations are decimal-safe
+* Blockchain deposits can be independently verified
+* Supported networks are enforced
+* Duplicate transactions are prevented
+* Risk controls operate
+* Required compliance controls operate
+* Payouts are idempotent
+* Provider webhooks are verified
+* Reconciliation works
+* Ledger integrity is maintained
+* Staff permissions are enforced
+* Staff actions are audited
+* Secrets are protected
+* Provider failures are handled
+* Monitoring is operational
+* Incident runbooks exist
+* Backups work
+* Disaster recovery has been tested
+* Security testing has been completed
+* Provider sandbox testing has been completed
+* Legal/compliance review has been completed
+* Production activation requires authorized approval
+
+---
+
+# 46. FINAL ENGINEERING RULE
+
+Prioritize:
+
+```text
+Security
+    >
+Financial Integrity
+    >
+Correctness
+    >
+Reliability
+    >
+Compliance Configuration
+    >
+Observability
+    >
+User Experience
+    >
+Visual Design
+```
+
+Never sacrifice financial integrity or security for UI convenience.
+
+Never invent information.
+
+Never fabricate provider responses.
+
+Never fabricate compliance status.
+
+Never fabricate blockchain confirmations.
+
+Never fabricate payouts.
+
+Never expose secrets.
+
+Never trust client-side financial data.
+
+Never allow unauthorized staff to modify financial records.
+
+Build RupeeBridge as a serious production financial system with explicit separation between:
+
+```text
+Frontend
+Backend
+Financial Ledger
+Blockchain/Custody
+Risk
+Compliance
+Payouts
+Administration
+Infrastructure
+Observability
+Reconciliation
+```
+
+The final implementation must be maintainable, auditable, testable, secure, and capable of integrating real providers without rewriting the core business logic.
