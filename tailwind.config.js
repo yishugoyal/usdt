@@ -1,6 +1,5 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,7 +8,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Hex values required so opacity modifiers (/5, /20, /30) work
         primary: {
           DEFAULT: "#38BDF8",
           dark: "#0EA5E9",
@@ -46,4 +44,3 @@ const config: Config = {
   },
   plugins: [],
 };
-export default config;
