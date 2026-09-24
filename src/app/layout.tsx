@@ -4,7 +4,7 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: 'RupeeBridge | Advanced Institutional USDT → INR Sell-to-Company Platform',
@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-brand-500 selection:text-slate-950`}>
+    <html lang="en" className={inter.variable}>
+      <body className={`${inter.className} min-h-screen flex flex-col bg-background text-text antialiased`}>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -72,7 +72,7 @@ export default function LandingPage() {
       <section className="relative pt-16 pb-20 px-4 lg:px-8 overflow-hidden">
         {/* Subtle background gradient */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
