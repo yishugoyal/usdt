@@ -27,7 +27,7 @@ export default function RegisterPage() {
       });
       const data = await res.json();
       if (data.success) {
-        router.push('/login');
+        router.push('/login?registered=1');
       } else {
         setError(data.error || 'Registration failed');
       }

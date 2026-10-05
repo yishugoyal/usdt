@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { comparePassword, signToken } from '@/lib/auth';
+import { comparePassword, normalizeEmail, signToken } from '@/lib/auth';
 
 export async function POST(req: Request) {
   try {
@@ -10,8 +10,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Email and password required' }, { status: 400 });
     }
 
+    const normalizedEmail = normalizeEmail(email);
+
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: normalizedEmail },
       include: { profile: true },
     });
 
@@ -19,9 +21,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
+    if (user.status !== 'ACTIVE') {
+      return NextResponse.json(
+        { error: 'Your account is currently unavailable. Please contact support.' },
+        { status: 403 }
+      );
+    }
+
     const isMatch = await comparePassword(password, user.passwordHash);
     if (!isMatch) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    }
+
+    if (!user.isEmailVerified) {
+      return NextResponse.json(
+        {
+          error: 'Please verify your email address before continuing.',
+          requiresVerification: true,
+          email: user.email,
+        },
+        { status: 403 }
+      );
     }
 
     const token = await signToken({
@@ -44,7 +64,7 @@ export async function POST(req: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24, // 24 hours
+      maxAge: 60 * 60 * 24,
       path: '/',
     });
 

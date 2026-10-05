@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Landmark, ArrowRight, ShieldCheck, Lock } from 'lucide-react';
+import { Landmark, ArrowRight, Lock } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,11 +11,29 @@ export default function LoginPage() {
   const [email, setEmail] = useState('demo@rupeebridge.com');
   const [password, setPassword] = useState('UserPassword123!');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const verified = params.get('verified');
+    const registration = params.get('registered');
+    const errorParam = params.get('error');
+
+    if (verified === '1') {
+      setSuccess('Email verified successfully. You can now sign in.');
+    } else if (registration === '1') {
+      setSuccess('Account created successfully. Please check your inbox to verify your email before signing in.');
+    } else if (errorParam) {
+      setError('The verification link is invalid or has expired. Please request a new one.');
+    }
+  }, []);
 
   const switchTab = (tab: 'CUSTOMER' | 'STAFF') => {
     setRoleTab(tab);
     setError('');
+    setSuccess('');
     if (tab === 'CUSTOMER') {
       setEmail('demo@rupeebridge.com');
       setPassword('UserPassword123!');
@@ -28,6 +46,7 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     const endpoint = roleTab === 'CUSTOMER' ? '/api/auth/login' : '/api/auth/staff-login';
@@ -47,12 +66,37 @@ export default function LoginPage() {
         }
         router.refresh();
       } else {
-        setError(data.error || 'Authentication failed');
+        if (data.requiresVerification) {
+          setError('Please verify your email address before continuing.');
+        } else {
+          setError(data.error || 'Authentication failed');
+        }
       }
     } catch (e: any) {
       setError(e.message || 'Server connection error');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!email) return;
+    setResendLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const res = await fetch('/api/auth/resend-verification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      setSuccess(data.message || 'Verification email sent. Please check your inbox.');
+    } catch (e: any) {
+      setError(e.message || 'Unable to send the verification email.');
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -71,7 +115,6 @@ export default function LoginPage() {
           <p className="text-xs text-text-secondary">Institutional USDT to INR Direct Counterparty Platform</p>
         </div>
 
-        {/* Role Tabs */}
         <div className="flex bg-gray-100 p-1 rounded-xl border border-border">
           <button
             type="button"
@@ -103,6 +146,12 @@ export default function LoginPage() {
           </div>
         )}
 
+        {success && (
+          <div className="p-3 bg-green-50 border border-green-200 rounded-xl text-xs text-green-700 text-center font-semibold">
+            {success}
+          </div>
+        )}
+
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold text-text-secondary mb-1">
@@ -128,6 +177,14 @@ export default function LoginPage() {
             />
           </div>
 
+          {roleTab === 'CUSTOMER' && (
+            <div className="text-right text-xs">
+              <Link href="/forgot-password" className="text-primary font-bold hover:underline">
+                Forgot Password?
+              </Link>
+            </div>
+          )}
+
           <button
             type="submit"
             disabled={loading}
@@ -139,6 +196,25 @@ export default function LoginPage() {
           </button>
         </form>
 
+        {roleTab === 'CUSTOMER' && (
+          <div className="space-y-3">
+            <button
+              type="button"
+              onClick={handleResendVerification}
+              disabled={resendLoading}
+              className="w-full border border-primary/30 text-primary bg-primary-soft hover:bg-primary/5 rounded-xl py-2.5 text-xs font-semibold"
+            >
+              {resendLoading ? 'Sending...' : 'Resend verification email'}
+            </button>
+            <div className="text-center pt-2 border-t border-border text-xs text-text-secondary">
+              Don&apos;t have an account?{' '}
+              <Link href="/register" className="text-primary font-bold hover:underline">
+                Register Account
+              </Link>
+            </div>
+          </div>
+        )}
+
         <div className="p-3 bg-gray-50 rounded-xl border border-border text-[11px] text-text-secondary space-y-1">
           <div className="font-bold text-text">
             {roleTab === 'CUSTOMER' ? 'Demo Customer Credentials:' : 'Pre-configured Staff Credentials:'}
@@ -146,15 +222,6 @@ export default function LoginPage() {
           <div>Email: <code className={`font-mono ${roleTab === 'CUSTOMER' ? 'text-primary' : 'text-warning'}`}>{email}</code></div>
           <div>Password: <code className={`font-mono ${roleTab === 'CUSTOMER' ? 'text-primary' : 'text-warning'}`}>{password}</code></div>
         </div>
-
-        {roleTab === 'CUSTOMER' && (
-          <div className="text-center pt-2 border-t border-border text-xs text-text-secondary">
-            Don't have an account?{' '}
-            <Link href="/register" className="text-primary font-bold hover:underline">
-              Register Account
-            </Link>
-          </div>
-        )}
       </div>
     </div>
   );

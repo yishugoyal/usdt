@@ -6,12 +6,47 @@ const SECRET_KEY = new TextEncoder().encode(
   process.env.AUTH_SECRET || 'rupeebridge_super_secret_jwt_key_32bytes_min_length_2026'
 );
 
+export type AuthTokenPurpose = 'EMAIL_VERIFICATION' | 'PASSWORD_RESET';
+
 export interface TokenPayload {
   userId?: string;
   staffId?: string;
   email: string;
   role?: string;
   type: 'USER' | 'STAFF';
+  purpose?: AuthTokenPurpose;
+}
+
+export function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
+export function validatePassword(password: string) {
+  if (password.length < 8) {
+    return { valid: false, message: 'Password must be at least 8 characters long.' };
+  }
+
+  if (password.trim() !== password) {
+    return { valid: false, message: 'Password cannot begin or end with whitespace.' };
+  }
+
+  if (!/[A-Z]/.test(password)) {
+    return { valid: false, message: 'Password must include at least one uppercase letter.' };
+  }
+
+  if (!/[a-z]/.test(password)) {
+    return { valid: false, message: 'Password must include at least one lowercase letter.' };
+  }
+
+  if (!/\d/.test(password)) {
+    return { valid: false, message: 'Password must include at least one number.' };
+  }
+
+  if (!/[^A-Za-z0-9]/.test(password)) {
+    return { valid: false, message: 'Password must include at least one special character.' };
+  }
+
+  return { valid: true };
 }
 
 export async function hashPassword(password: string): Promise<string> {
@@ -22,11 +57,11 @@ export async function comparePassword(password: string, hash: string): Promise<b
   return bcrypt.compare(password, hash);
 }
 
-export async function signToken(payload: TokenPayload): Promise<string> {
+export async function signToken(payload: TokenPayload, expiresIn = '24h'): Promise<string> {
   return new SignJWT({ ...payload })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('24h')
+    .setExpirationTime(expiresIn)
     .sign(SECRET_KEY);
 }
 
